@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>门条</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* 手机容器模拟 */
+        #app-container {
+            position: relative;
+            width: 100%;
+            max-width: 480px; /* 限制最大宽度，模拟手机 */
+            overflow: hidden;
+        }
+
+        /* 图片通用样式 */
+        .bg-image {
+            width: 100%;
+            display: block;
+        }
+
+        /* 页面层级控制 */
+        .page {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%; /* 确保覆盖 */
+            display: none; /* 默认隐藏 */
+        }
+
+        .page.active {
+            position: relative; /* 激活的页面占据文档流 */
+            display: block;
+        }
+
+        /* --- 输入框样式 (覆盖在表格右侧) --- */
+        .input-group {
+            position: absolute;
+            left: 50%; /* 从中间开始，覆盖右侧栏 */
+            width: 45%; /* 宽度大约占据右侧 */
+            height: 4.5%; /* 根据图片估算的行高 */
+            border: none;
+            background: transparent; /* 透明背景 */
+            font-size: 16px;
+            color: #333;
+            outline: none; /* 去掉点击时的蓝框 */
+            padding-left: 5px;
+        }
+        
+        /* 为了调试方便，如果你找不到输入框在哪，可以把下面这行注释取消，就能看到红色框框 */
+        /* .input-group { border: 1px solid red; } */
+
+        /* 这里的 top 百分比是根据你的图片估算的，你可能需要微调 */
+        #input-name { top: 28.1%; }
+        #input-info { top: 31.3%; }
+        #input-teacher { top: 34.5%; }
+        #input-date { top: 37.7%; }
+
+        /* --- 按钮热区样式 --- */
+        .btn-hotspot {
+            position: absolute;
+            cursor: pointer;
+            background: transparent; /* 透明 */
+            /* background: rgba(0, 255, 0, 0.3); 用来调试按钮位置 */ 
+        }
+
+        /* 允许出门按钮的位置 */
+        #btn-submit {
+            bottom: 38%; /* 距离底部的位置 */
+            left: 2.5%;
+            width: 95%;
+            height: 4.5%;
+        }
+
+        /* 关闭按钮的位置 (在结果页) */
+        #btn-close {
+            top: 43.2%; /* 大概在中间位置 */
+            left: 45%;
+            width: 15%;
+            height: 4.5%;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="app-container">
+        
+        <div id="page-form" class="page active">
+            <img src="form.png" alt="表单背景" class="bg-image">
+            
+            <input type="text" id="input-name" class="input-group" placeholder="点击输入姓名" value="张三">
+            <input type="text" id="input-info" class="input-group" placeholder="点击输入信息" value="高三(1)班">
+            <input type="text" id="input-teacher" class="input-group" placeholder="点击输入老师" value="李老师">
+            <input type="text" id="input-date" class="input-group" placeholder="点击输入日期" value="2023-10-27">
+
+            <div id="btn-submit" class="btn-hotspot"></div>
+        </div>
+
+        <div id="page-result" class="page">
+            <img src="result.png" alt="结果背景" class="bg-image">
+            
+            <div id="btn-close" class="btn-hotspot"></div>
+        </div>
+
+    </div>
+
+    <script>
+        // 获取元素
+        const pageForm = document.getElementById('page-form');
+        const pageResult = document.getElementById('page-result');
+        const btnSubmit = document.getElementById('btn-submit');
+        const btnClose = document.getElementById('btn-close');
+
+        // 点击“允许出门”
+        btnSubmit.addEventListener('click', function() {
+            // 这里可以添加逻辑，比如检查名字是否填了
+            // const name = document.getElementById('input-name').value;
+            // if(!name) { alert("请输入姓名"); return; }
+
+            // 切换页面
+            pageForm.classList.remove('active');
+            pageResult.classList.add('active');
+            
+            // 滚动到顶部
+            window.scrollTo(0,0);
+        });
+
+        // 点击“关闭” (这里设定为返回上一页，或者你可以让它关闭窗口)
+        btnClose.addEventListener('click', function() {
+            pageResult.classList.remove('active');
+            pageForm.classList.add('active');
+        });
+    </script>
+</body>
+</html>
